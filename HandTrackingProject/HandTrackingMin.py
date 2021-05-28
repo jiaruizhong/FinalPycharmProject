@@ -1,8 +1,8 @@
-import cv2
+import cv2 as cv
 import mediapipe as mp
 import time
 
-cap = cv2.VideoCapture(0)
+cap = cv.VideoCapture(0)
 
 mpHands = mp.solutions.hands
 hands = mpHands.Hands()
@@ -13,7 +13,7 @@ cTime = 0
 
 while True:
     success, img = cap.read()
-    imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    imgRGB = cv.cvtColor(img, cv.COLOR_BGR2RGB)
     results = hands.process(imgRGB)
     #print(results.multi_hand_landmarks)
 
@@ -25,7 +25,7 @@ while True:
                 cx, cy = int(lm.x*w), int(lm.y*h)
                 print(id, cx, cy)
                 if id == 4:
-                    cv2.circle(img, (cx, cy), 15, (255, 0, 255), cv2.FILLED)
+                    cv.circle(img, (cx, cy), 15, (255, 0, 255), cv.FILLED)
 
             mpDraw.draw_landmarks(img, handLms, mpHands.HAND_CONNECTIONS)
 
@@ -34,9 +34,9 @@ while True:
     fps = 1/(cTime-pTime)
     pTime = cTime
 
-    cv2.putText(img, str(int(fps)), (10, 70), cv2.FONT_HERSHEY_PLAIN, 3, (255, 0, 255), 3)
+    cv.putText(img, str(int(fps)), (10, 70), cv.FONT_HERSHEY_PLAIN, 3, (255, 0, 255), 3)
 
-    cv2.imshow('Image', img)
-    if cv2.waitKey(1) == ord('q'):
+    cv.imshow('Image', img)
+    if cv.waitKey(1) == ord('q'):
         break
 
